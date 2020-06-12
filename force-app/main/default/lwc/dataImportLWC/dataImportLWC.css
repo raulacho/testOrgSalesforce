@@ -1,0 +1,20 @@
+.main-container{
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+}
+
+
+.c-container {
+    border: 1px solid #d8dde6;
+    margin: 10px 0 20px 0;
+}
+
+.spinnerwait {
+  height:100px;
+}
+
+.space-around {
+  padding:10px;
+}
