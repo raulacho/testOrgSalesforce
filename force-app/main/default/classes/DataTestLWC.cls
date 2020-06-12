@@ -3,8 +3,9 @@ public class DataTestLWC {
     public static AccountP getCreatedData(Integer userNumber){
         system.debug('usernumber ' + userNumber);
         try {
-            String tmpId = DataImportService.importData(userNumber);
-            Account tmpAccount = [SELECT Id, Name, Email__c, (SELECT Id, Name FROM Posts__r) FROM Account WHERE Id =:tmpId];
+            String tmpId = DataImport.importData(userNumber);
+     //       Account tmpAccount = [SELECT Id, Name, Email__c, (SELECT Id, Name FROM Posts__r) FROM Account WHERE Id =:tmpId];
+            Account tmpAccount = new AccountsSelector().selectbyIdwithPosts(tmpId);
             AccountP returnData = new AccountP(tmpAccount.Id, tmpAccount, tmpAccount.Posts__r);
             return returnData;    
         } catch(Exception e){
