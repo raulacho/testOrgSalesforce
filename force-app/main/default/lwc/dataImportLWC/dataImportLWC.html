@@ -1,0 +1,73 @@
+<template>
+  <div class="main-container">
+    <div class="c-container">
+      <lightning-layout>
+        <lightning-layout-item padding="around-small">
+          <div class="header-column">
+            <h1>Click button to import Data {isloaded}</h1>
+            <lightning-input
+              type="number"
+              label="User Id (1 - 10)"
+              max="10"
+              name="usernumber"
+              data-id="userIdNumber"
+            >
+            </lightning-input>
+          </div>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small">
+          <div class="header-column">
+            <lightning-button
+              variant="brand-outline"
+              label="Import Data"
+              title="Non-primary action"
+              onclick={handleClick}
+              class="slds-m-left_x-small"
+            ></lightning-button>
+          </div>
+        </lightning-layout-item>
+      </lightning-layout>
+    </div>
+    <div class="slds-m-around_large">
+      <template if:true={isLoaded}>
+        <div class="slds-is-relative spinnerwait">
+          <lightning-spinner alternative-text="Loading..." variant="brand">
+          </lightning-spinner></div
+      ></template>
+    </div>
+    <template if:true={accountCreated}>
+      <lightning-card title="Transaction Result">
+        <div class="space-around">
+          <p>
+            Account Created:
+            <a href={accountCreated.accountId} target="_blank"
+              >{accountCreated.accountinfo.Name}
+            </a>
+          </p>
+          <p>Email: {accountCreated.accountinfo.Email__c}</p>
+        </div>
+        <div class="space-around">
+          <h4>Posts</h4>
+          <template for:each={accountCreated.postinfo} for:item="postc">
+            <p key={postc.Id} class="space-around">{postc.Name}</p>
+          </template>
+        </div>
+      </lightning-card>
+    </template>
+
+    <template if:true={error}>
+      <div
+        class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error"
+        role="alert"
+      >
+        <span class="slds-assistive-text">error</span>
+        <span
+          class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"
+          title="Description of icon when needed"
+        >
+        </span>
+        <h2>ERROR: {error}</h2>
+      </div>
+    </template>
+  </div>
+</template>
