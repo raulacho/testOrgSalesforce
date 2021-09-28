@@ -52,7 +52,8 @@ global with sharing class DataImport {
         String postsRetrieved = importPosts(userNumber);
         List<Post_JSON> postJsons = Post_JSON.parsepost(postsRetrieved);
         Map<String,String> commentsRetrieved = retrieveComments(postJsons);
-        String idReturned = DataImportService.uploadData(usersRetrieved,postsRetrieved,commentsRetrieved);
+        IDataImportService service = DataImportService.newInstance();
+        String idReturned = service.uploadData(usersRetrieved,postsRetrieved,commentsRetrieved);
         system.debug(idReturned);
         return idReturned;
     }

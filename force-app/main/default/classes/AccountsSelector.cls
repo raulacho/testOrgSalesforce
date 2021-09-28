@@ -1,4 +1,4 @@
-public class AccountsSelector extends fflib_SObjectSelector {
+public class AccountsSelector extends fflib_SObjectSelector implements IAccountSelector {
     
     public Schema.SObjectType getSObjectType() {
         return Account.sObjectType;
@@ -20,11 +20,15 @@ public class AccountsSelector extends fflib_SObjectSelector {
     public Account selectbyIdwithPosts(String ids){
         // QUERY ACCOUNT
         fflib_QueryFactory query = newQueryFactory();
-        query.setCondition('Id = :recordIds');
+        query.setCondition('Id = :ids');
         new PostsSelector().addQueryFactorySubselect(query,'Posts__r');    
         return (Account) Database.query(
             query.toSOQL()            
         );
+    }
+    
+    public static IAccountSelector newInstance(){
+        return (IAccountSelector) Application.selector.newInstance(Account.SObjectType);
     }
     
 }

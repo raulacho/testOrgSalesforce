@@ -1,14 +1,8 @@
-global with sharing class DataImportService {
+global with sharing class DataImportService implements IDataImportService {
     
     
     global static String uploadData(String userinfo,String postInfo,Map<String,String> commentInfo){
-        fflib_SObjectUnitOfWork uow = new fflib_SObjectUnitOfWork(
-            new Schema.SObjectType[] {
-                Account.SObjectType,
-                    Post__c.SObjectType,
-                    Comment__c.SObjectType
-                    }
-        );
+        fflib_ISObjectUnitOfWork uow = Application.unitOfWork.newInstance();
         
         // PARSE DATA
         
@@ -18,7 +12,7 @@ global with sharing class DataImportService {
         
         // USER
         Account acc = new Account();
-
+        
         acc.External_Id__c = String.valueof(cust.id);
         acc.Name = cust.name;
         acc.Email__c = cust.email;  
@@ -42,7 +36,7 @@ global with sharing class DataImportService {
                 tmpComm.Body__c = tmpC.body;
                 uow.registerNew(tmpComm, Comment__c.Post__c,tmpPost);
             }
-
+            
         }
         uow.commitWork();       
         return acc.Id;
@@ -50,6 +44,9 @@ global with sharing class DataImportService {
     
     
     
+    public static IDataImportService newInstance(){
+        return (IDataImportService) Application.service.newInstance(IDataImportService.class);
+    }     
     
     public class UserCustom {
         public String name;
@@ -88,6 +85,6 @@ global with sharing class DataImportService {
         public String lng;
     }   
     
-  
+    
     
 }
